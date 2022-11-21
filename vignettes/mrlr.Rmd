@@ -1,0 +1,46 @@
+---
+title: "mrlr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mrlr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### To use the function 'mylm.basic':
+
+```{r setup}
+library(mylr)
+x <-  seq(1,10)
+y = 5*x+rnorm(10)
+data = data.frame(x,y)
+lm.model = mylr::mylm.basic(y~x,data)
+```
+
+### To use the function 'mylr.detailed':
+
+```{r}
+mylr::mylm.detailed(y~x,data =data )
+```
+### To use the function mylr.predict
+```{r}
+mylm.predict(lm.model,data)
+```
+### To use the function decribe.data
+```{r}
+describe.data(data)
+```
+### Comparisions
+```{r}
+all.equal(predict(lm(y~x,data),data),predict(mylm.basic(y~x),data))
+all.equal(predict(lm(y~x,data),data),predict(mylm.detailed(y~x,data),data))
+bench::mark(mylm.basic(y~x))
+bench::mark(mylm.detailed(y~x,data))
+```
